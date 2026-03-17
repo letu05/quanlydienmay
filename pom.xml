@@ -46,7 +46,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>com.mycompany.quanlydienmay.main.MainApp</mainClass>
+                    <mainClass>com.mycompany.quanlydienmay.main.JavaFxApp</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -84,6 +84,22 @@
 				<option>${profiler.jvmargs.arg4}</option>
 				<option>${profiler.jvmargs.arg5}</option>
                             </options>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>mainapp</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.mycompany.quanlydienmay.main.MainApp</mainClass>
                         </configuration>
                     </execution>
                 </executions>

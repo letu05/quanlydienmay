@@ -32,7 +32,7 @@ public class Order {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private Account user;
 
     @Column(name = "customer_name", nullable = false, length = 150)
@@ -50,7 +50,7 @@ public class Order {
     @Column(length = 1000)
     private String note;
 
-    @Column(name = "order_date", nullable = false)
+    @Transient
     private LocalDateTime orderDate = LocalDateTime.now();
 
     @Column(nullable = false, length = 30)
