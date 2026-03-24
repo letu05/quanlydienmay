@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.mycompany.quanlydienmay.main.RegisterController"
+           styleClass="login-root">
+
+    <!-- Wrapper inside ScrollPane since height could be large -->
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" maxWidth="600" maxHeight="800">
+        <content>
+            <VBox styleClass="login-card" maxWidth="560">
+                <padding>
+                    <Insets top="38" right="44" bottom="38" left="44"/>
+                </padding>
+
+                <!-- Logo + Title -->
+                <HBox alignment="CENTER" spacing="10">
+                    <Label text="⚡" style="-fx-font-size: 32;"/>
+                </HBox>
+
+                <Label text="Đăng Ký Tài Khoản" styleClass="login-title"
+                       style="-fx-alignment: CENTER; -fx-text-alignment: CENTER; -fx-padding: 8 0 0 0;"/>
+                <Label text="Trở thành thành viên hệ thống" styleClass="login-subtitle"
+                       style="-fx-alignment: CENTER; -fx-text-alignment: CENTER;"/>
+
+                <Separator style="-fx-padding: 6 0 6 0; -fx-opacity: 0.3;"/>
+
+                <Label text="Họ tên" styleClass="field-label"/>
+                <TextField fx:id="txtFullName" promptText="Nhập họ và tên" styleClass="login-field"/>
+
+                <Label text="Tên đăng nhập" styleClass="field-label"/>
+                <TextField fx:id="txtUsername" promptText="Nhập tên đăng nhập" styleClass="login-field"/>
+
+                <Label text="Email" styleClass="field-label"/>
+                <TextField fx:id="txtEmail" promptText="Nhập email liên hệ" styleClass="login-field"/>
+
+                <Label text="Số điện thoại" styleClass="field-label"/>
+                <TextField fx:id="txtPhone" promptText="Nhập số điện thoại" styleClass="login-field"/>
+
+                <Label text="Mật khẩu" styleClass="field-label"/>
+                <PasswordField fx:id="txtPassword" promptText="Nhập mật khẩu" styleClass="login-field"/>
+
+                <Label text="Nhập lại mật khẩu" styleClass="field-label"/>
+                <PasswordField fx:id="txtConfirmPassword" promptText="Xác nhận mật khẩu" styleClass="login-field"/>
+
+                <Label fx:id="lblError" text="" styleClass="error-label" wrapText="true"
+                       style="-fx-padding: 8 0 4 0;"/>
+
+                <Button fx:id="btnRegister" text="Đăng Ký →" onAction="#handleRegisterSubmit"
+                        styleClass="login-btn" maxWidth="Infinity"
+                        style="-fx-padding: 16 26 16 26; -fx-margin: 12 0 0 0;"/>
+
+                <Button text="Đã có tài khoản? Quay lại đăng nhập" onAction="#handleBackToLogin" styleClass="link-button"
+                        style="-fx-padding: 14 0 0 0; -fx-alignment: CENTER; -fx-max-width: Infinity;" />
+            </VBox>
+        </content>
+    </ScrollPane>
+</StackPane>

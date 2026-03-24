@@ -104,4 +104,9 @@ public class Order {
                 .map(OrderItem::getLineTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    @Transient
+    public List<OrderDetail> getDetails() { 
+        return null; 
+    }
 }

@@ -3,60 +3,102 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.quanlydienmay.main.DashboardController" styleClass="root-container">
     <top>
-        <VBox spacing="20.0" styleClass="header-container">
+        <VBox spacing="16.0" styleClass="header-container">
             <padding>
-                <Insets top="24" right="32" bottom="24" left="32"/>
+                <Insets top="20" right="28" bottom="20" left="28"/>
             </padding>
 
             <!-- Header Bar -->
             <HBox alignment="CENTER_LEFT" spacing="16" styleClass="header-bar">
-                <Label text="📱 Quản Lý Điện Máy" styleClass="app-title" HBox.hgrow="ALWAYS"/>
+                <Label text="⚡ Quản Lý Điện Máy" styleClass="app-title" HBox.hgrow="ALWAYS"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Label fx:id="lblWelcome" text="" styleClass="welcome-text"/>
+                <Label fx:id="lblWelcome" text="" styleClass="welcome-text" wrapText="false"/>
+                <!-- Nút giỏ hàng với badge -->
+                <StackPane alignment="TOP_RIGHT">
+                    <Button text="🛒 Giỏ hàng" onAction="#handleCartClick" styleClass="cart-button"/>
+                    <Label fx:id="lblCartBadge" text="0" styleClass="cart-badge" visible="false" managed="false"
+                           StackPane.alignment="TOP_RIGHT" style="-fx-translate-x: 6; -fx-translate-y: -6;"/>
+                </StackPane>
                 <Button text="🚪 Đăng xuất" onAction="#handleLogout" styleClass="logout-button"/>
             </HBox>
-            
-            <!-- Subtitle -->
-            <Label text="Hệ thống quản lý bán hàng điện máy gia dụng" styleClass="subtitle-text"/>
 
-            <!-- Summary Cards Row -->
-            <HBox spacing="16.0" styleClass="stats-container">
+
+            <!-- Summary Stats Row -->
+            <HBox fx:id="statsContainer" spacing="14.0" styleClass="stats-container">
                 <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                     <padding>
-                        <Insets top="16" right="16" bottom="16" left="16"/>
+                        <Insets top="14" right="16" bottom="14" left="16"/>
                     </padding>
                     <Label text="📦" styleClass="stat-icon"/>
-                    <Label text="Danh mục" styleClass="stat-label"/>
+                    <Label text="DANH MỤC" styleClass="stat-label"/>
                     <Label fx:id="lblTotalCategories" text="0" styleClass="stat-number"/>
                 </VBox>
                 <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                     <padding>
-                        <Insets top="16" right="16" bottom="16" left="16"/>
+                        <Insets top="14" right="16" bottom="14" left="16"/>
                     </padding>
-                    <Label text="🛒" styleClass="stat-icon"/>
-                    <Label text="Sản phẩm" styleClass="stat-label"/>
+                    <Label text="🛍️" styleClass="stat-icon"/>
+                    <Label text="SẢN PHẨM" styleClass="stat-label"/>
                     <Label fx:id="lblTotalProducts" text="0" styleClass="stat-number"/>
                 </VBox>
                 <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
                     <padding>
-                        <Insets top="16" right="16" bottom="16" left="16"/>
+                        <Insets top="14" right="16" bottom="14" left="16"/>
                     </padding>
                     <Label text="📋" styleClass="stat-icon"/>
-                    <Label text="Đơn hàng" styleClass="stat-label"/>
+                    <Label text="ĐƠN HÀNG" styleClass="stat-label"/>
                     <Label fx:id="lblTotalOrders" text="0" styleClass="stat-number"/>
+                </VBox>
+            </HBox>
+
+            <!-- KPI Strip -->
+            <HBox fx:id="kpiStrip" spacing="12.0" styleClass="kpi-strip">
+                <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets top="12" right="14" bottom="12" left="14"/>
+                    </padding>
+                    <Label text="💰 Doanh thu" styleClass="kpi-label"/>
+                    <Label fx:id="lblRevenue" text="0 đ" styleClass="kpi-value"/>
+                </VBox>
+                <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets top="12" right="14" bottom="12" left="14"/>
+                    </padding>
+                    <Label text="⏳ Đơn chờ xử lý" styleClass="kpi-label"/>
+                    <Label fx:id="lblPendingOrders" text="0" styleClass="kpi-value"/>
+                </VBox>
+                <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets top="12" right="14" bottom="12" left="14"/>
+                    </padding>
+                    <Label text="✅ Đơn hoàn tất" styleClass="kpi-label"/>
+                    <Label fx:id="lblCompletedOrders" text="0" styleClass="kpi-value"/>
+                </VBox>
+                <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets top="12" right="14" bottom="12" left="14"/>
+                    </padding>
+                    <Label text="⚠️ Sắp hết hàng" styleClass="kpi-label"/>
+                    <Label fx:id="lblLowStockProducts" text="0" styleClass="kpi-value"/>
                 </VBox>
             </HBox>
         </VBox>
@@ -65,73 +107,200 @@
     <center>
         <TabPane tabClosingPolicy="UNAVAILABLE" styleClass="main-tabs">
             <tabs>
-                <Tab fx:id="tabCategory" text="Danh mục">
-                    <VBox spacing="10" styleClass="tab-content">
+                <!-- ══ Tab: Cửa hàng ══════════════════════ -->
+                <Tab fx:id="tabCatalog" text="🏪  Cửa hàng">
+                    <BorderPane styleClass="tab-content">
+                        <!-- TOP: HERO BANNER -->
+                        <top>
+                            <VBox spacing="0">
+                                <padding>
+                                    <Insets top="16" right="16" bottom="16" left="16"/>
+                                </padding>
+                                <HBox alignment="CENTER" styleClass="hero-banner">
+                                    <VBox alignment="CENTER" spacing="5">
+                                        <Label text="🔥 SIÊU SALE ĐIỆN MÁY" styleClass="hero-banner-title"/>
+                                        <Label text="Giảm đến 50% - Freeship toàn quốc mọi đơn hàng" styleClass="hero-banner-subtitle"/>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+                        </top>
+
+                        <!-- LEFT: SIDEBAR (Tìm kiếm & Danh mục) -->
+                        <left>
+                            <VBox spacing="12" styleClass="sidebar-container" prefWidth="320">
+                                <padding>
+                                    <Insets top="16" right="16" bottom="16" left="16"/>
+                                </padding>
+                                <HBox spacing="8" alignment="CENTER_LEFT" styleClass="toolbar-row">
+                                    <TextField fx:id="txtCatalogSearch" promptText="🔍 Tìm sản phẩm..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                                    <Button text="🔄" onAction="#handleRefresh" styleClass="ghost-button"/>
+                                </HBox>
+                                <Label text="📋 KHÁM PHÁ DANH MỤC" styleClass="sidebar-title"/>
+                                <!-- Chuyển id categoryFilterBox từ HBox sang VBox -->
+                                <VBox fx:id="categoryFilterBox" spacing="8"/>
+                            </VBox>
+                        </left>
+
+                        <!-- CENTER: GRID SẢN PHẨM -->
+                        <center>
+                            <VBox spacing="10">
+                                <padding>
+                                    <Insets top="8" right="16" bottom="16" left="16"/>
+                                </padding>
+                                <HBox alignment="CENTER_RIGHT">
+                                    <Label fx:id="lblCatalogInfo" text="Đang hiển thị 0 sản phẩm" styleClass="catalog-info-label"/>
+                                </HBox>
+                                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="catalog-scroll" style="-fx-background-color: transparent;">
+                                    <content>
+                                        <FlowPane fx:id="productCardPane" hgap="16" vgap="16" prefWrapLength="800" styleClass="catalog-grid">
+                                            <padding>
+                                                <Insets top="4" right="4" bottom="4" left="4"/>
+                                            </padding>
+                                        </FlowPane>
+                                    </content>
+                                </ScrollPane>
+                            </VBox>
+                        </center>
+                    </BorderPane>
+                </Tab>
+
+                <!-- ══ Tab: Danh mục ══════════════════════ -->
+                <Tab fx:id="tabCategory" text="📁  Danh mục">
+                    <VBox spacing="12" styleClass="tab-content">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox spacing="10" alignment="CENTER_LEFT" styleClass="toolbar-row">
-                            <TextField fx:id="txtCategorySearch" promptText="Tìm danh mục..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
-                            <Button text="Làm mới" onAction="#handleRefresh" styleClass="ghost-button"/>
+                            <TextField fx:id="txtCategorySearch" promptText="🔍  Tìm danh mục..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                            <Button text="＋  Thêm" onAction="#handleAddCategory" styleClass="btn-primary"/>
+                            <Button text="✏️  Sửa" onAction="#handleEditCategory" styleClass="btn-warning"/>
+                            <Button text="🗑  Xóa" onAction="#handleDeleteCategory" styleClass="btn-danger"/>
+                            <Button text="🔄  Làm mới" onAction="#handleRefresh" styleClass="ghost-button"/>
                         </HBox>
-                        <TableView fx:id="categoryTable" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="categoryTable" prefHeight="500" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="categoryIdCol" text="ID" prefWidth="120"/>
-                                <TableColumn fx:id="categoryNameCol" text="Tên danh mục" prefWidth="650"/>
+                                <TableColumn fx:id="categoryIdCol" text="ID" prefWidth="160"/>
+                                <TableColumn fx:id="categoryNameCol" text="Tên danh mục" prefWidth="850"/>
                             </columns>
                         </TableView>
+                        <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="toolbar-row">
+                            <Label fx:id="lblCategoryPageInfo" text="Trang 1/1 • 0 bản ghi" styleClass="field-label"/>
+                            <Button fx:id="btnCategoryPrev" text="← Trước" onAction="#handleCategoryPrevPage" styleClass="btn-page"/>
+                            <Button fx:id="btnCategoryNext" text="Sau →" onAction="#handleCategoryNextPage" styleClass="btn-page"/>
+                        </HBox>
                     </VBox>
                 </Tab>
 
-                <Tab fx:id="tabProduct" text="Sản phẩm">
-                    <VBox spacing="10" styleClass="tab-content">
+                <!-- ══ Tab: Sản phẩm ══════════════════════ -->
+                <Tab fx:id="tabProduct" text="📦  Sản phẩm">
+                    <VBox spacing="12" styleClass="tab-content">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox spacing="10" alignment="CENTER_LEFT" styleClass="toolbar-row">
-                            <TextField fx:id="txtProductSearch" promptText="Tìm sản phẩm hoặc danh mục..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
-                            <Button text="Làm mới" onAction="#handleRefresh" styleClass="ghost-button"/>
+                            <TextField fx:id="txtProductSearch" promptText="🔍  Tìm sản phẩm hoặc danh mục..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                            <Button fx:id="btnAddProduct" text="＋  Thêm" onAction="#handleAddProduct" styleClass="btn-primary"/>
+                            <Button fx:id="btnEditProduct" text="✏️  Sửa" onAction="#handleEditProduct" styleClass="btn-warning"/>
+                            <Button fx:id="btnDeleteProduct" text="🗑  Xóa" onAction="#handleDeleteProduct" styleClass="btn-danger"/>
+                            <Button text="🔄  Làm mới" onAction="#handleRefresh" styleClass="ghost-button"/>
                         </HBox>
-                        <TableView fx:id="productTable" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="productTable" prefHeight="500" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="productIdCol" text="ID" prefWidth="80"/>
-                                <TableColumn fx:id="productNameCol" text="Tên sản phẩm" prefWidth="300"/>
-                                <TableColumn fx:id="productCategoryCol" text="Danh mục" prefWidth="200"/>
-                                <TableColumn fx:id="productPriceCol" text="Giá" prefWidth="180"/>
-                                <TableColumn fx:id="productStockCol" text="Tồn kho" prefWidth="120"/>
+                                <TableColumn fx:id="productIdCol" text="ID" prefWidth="100"/>
+                                <TableColumn fx:id="productNameCol" text="Tên sản phẩm" prefWidth="380"/>
+                                <TableColumn fx:id="productCategoryCol" text="Danh mục" prefWidth="260"/>
+                                <TableColumn fx:id="productPriceCol" text="Giá" prefWidth="240"/>
+                                <TableColumn fx:id="productStockCol" text="Tồn kho" prefWidth="160"/>
                             </columns>
                         </TableView>
+                        <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="toolbar-row">
+                            <Label fx:id="lblProductPageInfo" text="Trang 1/1 • 0 bản ghi" styleClass="field-label"/>
+                            <Button fx:id="btnProductPrev" text="← Trước" onAction="#handleProductPrevPage" styleClass="btn-page"/>
+                            <Button fx:id="btnProductNext" text="Sau →" onAction="#handleProductNextPage" styleClass="btn-page"/>
+                        </HBox>
                     </VBox>
                 </Tab>
 
-                <Tab fx:id="tabOrder" text="Đơn hàng">
-                    <VBox spacing="10" styleClass="tab-content">
+                <!-- ══ Tab: Đơn hàng ══════════════════════ -->
+                <Tab fx:id="tabOrder" text="📋  Đơn hàng">
+                    <VBox spacing="12" styleClass="tab-content">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
                         <HBox spacing="10" alignment="CENTER_LEFT" styleClass="toolbar-row">
-                            <TextField fx:id="txtOrderSearch" promptText="Tìm khách hàng, SĐT hoặc trạng thái..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
-                            <Button text="Làm mới" onAction="#handleRefresh" styleClass="ghost-button"/>
+                            <TextField fx:id="txtOrderSearch" promptText="🔍  Tìm khách hàng, SĐT hoặc trạng thái..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                            <Button text="👁  Xem chi tiết" onAction="#handleViewOrderDetails" styleClass="btn-secondary"/>
+                            <Button fx:id="btnAdvanceOrderStatus" text="🚀  Cập nhật trạng thái" onAction="#handleAdvanceOrderStatus" styleClass="btn-warning"/>
+                            <Button text="🔄  Làm mới" onAction="#handleRefresh" styleClass="ghost-button"/>
                         </HBox>
-                        <TableView fx:id="orderTable" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="orderTable" prefHeight="500" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="orderIdCol" text="Mã đơn" prefWidth="80"/>
-                                <TableColumn fx:id="orderCustomerCol" text="Khách hàng" prefWidth="220"/>
-                                <TableColumn fx:id="orderPhoneCol" text="SĐT" prefWidth="150"/>
-                                <TableColumn fx:id="orderDateCol" text="Ngày đặt" prefWidth="180"/>
-                                <TableColumn fx:id="orderStatusCol" text="Trạng thái" prefWidth="160"/>
-                                <TableColumn fx:id="orderTotalCol" text="Tổng tiền" prefWidth="180"/>
+                                <TableColumn fx:id="orderIdCol" text="Mã đơn" prefWidth="100"/>
+                                <TableColumn fx:id="orderCustomerCol" text="Khách hàng" prefWidth="280"/>
+                                <TableColumn fx:id="orderPhoneCol" text="SĐT" prefWidth="180"/>
+                                <TableColumn fx:id="orderDateCol" text="Ngày đặt" prefWidth="220"/>
+                                <TableColumn fx:id="orderStatusCol" text="Trạng thái" prefWidth="200"/>
+                                <TableColumn fx:id="orderTotalCol" text="Tổng tiền" prefWidth="220"/>
                             </columns>
                         </TableView>
+                        <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="toolbar-row">
+                            <Label fx:id="lblOrderPageInfo" text="Trang 1/1 • 0 bản ghi" styleClass="field-label"/>
+                            <Button fx:id="btnOrderPrev" text="← Trước" onAction="#handleOrderPrevPage" styleClass="btn-page"/>
+                            <Button fx:id="btnOrderNext" text="Sau →" onAction="#handleOrderNextPage" styleClass="btn-page"/>
+                        </HBox>
                     </VBox>
                 </Tab>
 
-                <Tab fx:id="tabAccount" text="Tài khoản (Admin)">
-                    <VBox spacing="10" styleClass="tab-content">
+                <!-- ══ Tab: Tài khoản ══════════════════════ -->
+                <Tab fx:id="tabAccount" text="👤  Tài khoản">
+                    <VBox spacing="12" styleClass="tab-content">
                         <padding>
                             <Insets top="16" right="16" bottom="16" left="16"/>
                         </padding>
-                        <Label text="Chức năng quản lý tài khoản – chỉ dành cho ADMIN" styleClass="field-label"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="toolbar-row">
+                            <TextField fx:id="txtAccountSearch" promptText="🔍  Tìm tên, username, email, vai trò..." styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                            <Button text="＋  Thêm" onAction="#handleAddAccount" styleClass="btn-primary"/>
+                            <Button text="✏️  Sửa" onAction="#handleEditAccount" styleClass="btn-warning"/>
+                            <Button text="🗑  Xóa" onAction="#handleDeleteAccount" styleClass="btn-danger"/>
+                            <Button text="🔄  Làm mới" onAction="#handleRefresh" styleClass="ghost-button"/>
+                        </HBox>
+                        <TableView fx:id="accountTable" prefHeight="500" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="accountIdCol" text="ID" prefWidth="100"/>
+                                <TableColumn fx:id="accountFullNameCol" text="Họ tên" prefWidth="320"/>
+                                <TableColumn fx:id="accountUsernameCol" text="Username" prefWidth="200"/>
+                                <TableColumn fx:id="accountPhoneCol" text="SĐT" prefWidth="200"/>
+                                <TableColumn fx:id="accountEmailCol" text="Email" prefWidth="300"/>
+                                <TableColumn fx:id="accountRoleCol" text="Vai trò" prefWidth="160"/>
+                            </columns>
+                        </TableView>
+                        <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="toolbar-row">
+                            <Label fx:id="lblAccountPageInfo" text="Trang 1/1 • 0 bản ghi" styleClass="field-label"/>
+                            <Button fx:id="btnAccountPrev" text="← Trước" onAction="#handleAccountPrevPage" styleClass="btn-page"/>
+                            <Button fx:id="btnAccountNext" text="Sau →" onAction="#handleAccountNextPage" styleClass="btn-page"/>
+                        </HBox>
+                    </VBox>
+                </Tab>
+
+                <!-- ══ Tab: Thống kê ══════════════════════ -->
+                <Tab fx:id="tabReport" text="📈  Thống kê">
+                    <VBox spacing="16" styleClass="tab-content" alignment="TOP_CENTER">
+                        <padding>
+                            <Insets top="24" right="24" bottom="24" left="24"/>
+                        </padding>
+                        <HBox alignment="CENTER" spacing="12" styleClass="toolbar-row">
+                            <Label text="BÁO CÁO DOANH THU" style="-fx-font-size: 26; -fx-font-weight: 800; -fx-text-fill: #1e293b;"/>
+                        </HBox>
+                        <VBox alignment="CENTER" spacing="12" styleClass="chart-container" VBox.vgrow="ALWAYS">
+                            <BarChart fx:id="revenueChart" animated="false" legendVisible="false">
+                                <xAxis>
+                                    <CategoryAxis label="Thời gian" fx:id="xAxis" />
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="Doanh thu (VNĐ)" fx:id="yAxis" />
+                                </yAxis>
+                            </BarChart>
+                        </VBox>
                     </VBox>
                 </Tab>
             </tabs>

@@ -17,6 +17,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 
 @Entity
@@ -44,6 +47,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ProductDetail productDetail;
 
     public Product() {}
 
@@ -76,4 +82,19 @@ public class Product {
 
     public Category getCategory() { return category; }
     public void setCategory(Category category) { this.category = category; }
+
+    public Integer getCategoryId() { 
+        return category != null ? category.getId() : null; 
+    }
+    
+    public void setCategoryId(Integer categoryId) {
+        if (categoryId != null) {
+            Category cat = new Category();
+            cat.setId(categoryId);
+            this.category = cat;
+        }
+    }
+
+    public ProductDetail getProductDetail() { return productDetail; }
+    public void setProductDetail(ProductDetail productDetail) { this.productDetail = productDetail; }
 }

@@ -26,6 +26,17 @@ public class AccountDAO {
         }
     }
 
+    public Account findByUsername(String username) {
+        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+            List<Account> result = session.createQuery(
+                    "FROM Account a WHERE a.username = :username", Account.class)
+                    .setParameter("username", username)
+                    .setMaxResults(1)
+                    .list();
+            return result.isEmpty() ? null : result.get(0);
+        }
+    }
+
     public List<Account> findAll() {
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             return session.createQuery("FROM Account", Account.class).list();

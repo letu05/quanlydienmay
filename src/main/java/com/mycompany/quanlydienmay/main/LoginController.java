@@ -97,4 +97,30 @@ public class LoginController {
             lblError.setText(errorMsg);
         }
     }
+
+    @FXML
+    private void handleRegister() {
+        try {
+            System.out.println("[LOGIN] Loading register.fxml...");
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/mycompany/quanlydienmay/register.fxml"));
+            
+            Parent root = loader.load();
+
+            Stage stage = (Stage) btnLogin.getScene().getWindow();
+            Scene scene = new Scene(root, 1200, 760);
+            
+            var cssResource = getClass().getResource("/com/mycompany/quanlydienmay/app.css");
+            if (cssResource != null) {
+                scene.getStylesheets().add(cssResource.toExternalForm());
+            }
+
+            stage.setTitle("Đăng ký - Quản Lý Điện Máy");
+            stage.setScene(scene);
+        } catch (Exception e) {
+            System.err.println("[LOGIN] ERROR opening register view:");
+            e.printStackTrace();
+            lblError.setText("Lỗi mở màn hình đăng ký.");
+        }
+    }
 }

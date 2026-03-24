@@ -11,9 +11,11 @@ public class OrderDAO {
 
     public List<Order> findAll() {
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-            // Filter out orders with invalid user_id (id > 0 means valid user)
             return session.createQuery(
-                    "FROM Order o WHERE o.user.id > 0 ORDER BY o.id DESC",
+                    "SELECT DISTINCT o FROM Order o "
+                    + "LEFT JOIN FETCH o.items i "
+                    + "LEFT JOIN FETCH i.product "
+                    + "WHERE o.user.id > 0 ORDER BY o.id DESC",
                     Order.class).list();
         } catch (Exception e) {
             System.err.println("[OrderDAO] Error in findAll: " + e.getMessage());
@@ -34,6 +36,21 @@ public class OrderDAO {
     public Order findById(int id) {
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             return session.get(Order.class, id);
+        }
+    }
+
+    public Order findByIdWithItems(int id) {
+        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+            List<Order> result = session.createQuery(
+                    "SELECT DISTINCT o FROM Order o "
+                    + "LEFT JOIN FETCH o.items i "
+                    + "LEFT JOIN FETCH i.product "
+                    + "WHERE o.id = :id",
+                    Order.class)
+                    .setParameter("id", id)
+                    .setMaxResults(1)
+                    .list();
+            return result.isEmpty() ? null : result.get(0);
         }
     }
 
