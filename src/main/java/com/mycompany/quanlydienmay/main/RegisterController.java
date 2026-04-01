@@ -2,6 +2,7 @@ package com.mycompany.quanlydienmay.main;
 
 import com.mycompany.quanlydienmay.dao.AccountDAO;
 import com.mycompany.quanlydienmay.model.Account;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,8 +63,9 @@ public class RegisterController {
             account.setUsername(username);
             account.setEmail(email);
             account.setPhone(phone);
-            account.setPassword(password); // In a real app we would hash this
-            account.setRole("ROLE_USER"); // Default role
+            // Hash mật khẩu bằng BCrypt (salt tự động tạo)
+            account.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+            account.setRole("CUSTOMER"); // Default role
 
             accountDAO.save(account);
 

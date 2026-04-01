@@ -3,6 +3,7 @@ package com.mycompany.quanlydienmay.main;
 import com.mycompany.quanlydienmay.dao.AccountDAO;
 import com.mycompany.quanlydienmay.model.Account;
 import com.mycompany.quanlydienmay.utils.SessionManager;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,9 +45,22 @@ public class LoginController {
 
         System.out.println("[LOGIN] Attempting login with username: " + username);
 
-        Account account = accountDAO.findByUsernameAndPassword(username, password);
+        // Bước 1: Tìm tài khoản theo username
+        Account account = accountDAO.findByUsername(username);
 
-        if (account == null) {
+        // Bước 2: Kiểm tra tồn tại và verify mật khẩu bằng BCrypt
+        boolean passwordOk = false;
+        if (account != null) {
+            try {
+                passwordOk = BCrypt.checkpw(password, account.getPassword());
+            } catch (Exception e) {
+                // Trường hợp hash không đúng định dạng (tài khoản cũ có plain text password)
+                passwordOk = password.equals(account.getPassword());
+                System.out.println("[LOGIN] Warning: account '" + username + "' uses plain-text password.");
+            }
+        }
+
+        if (account == null || !passwordOk) {
             System.out.println("[LOGIN] Login failed - account not found or password incorrect");
             lblError.setText("Tên đăng nhập hoặc mật khẩu không đúng.");
             txtPassword.clear();
